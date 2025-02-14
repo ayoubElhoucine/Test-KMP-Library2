@@ -8,21 +8,21 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "MainModule",
-            targets: ["MainModule"]
+            name: "shared",
+            targets: ["shared"]
         ),
         .library(
-            name: "Submodule",
-            targets: ["Submodule"]
+            name: "submodule",
+            targets: ["submodule"]
         )
     ],
     targets: [
         .binaryTarget(
-            name: "MainModule",
+            name: "shared",
             path: "./Library.xcframework"
         ),
         .binaryTarget(
-            name: "Submodule",
+            name: "submodule",
             path: "./Submodule.xcframework"
         )
     ]
