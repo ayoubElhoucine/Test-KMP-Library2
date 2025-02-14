@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
@@ -34,6 +33,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             //put your multiplatform dependencies here
+            implementation(project(":submodule"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -50,30 +50,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
-
-tasks.register("assembleMainXCFramework") {
-    dependsOn("linkReleaseFrameworkIosArm64", "linkReleaseFrameworkIosX64", "linkReleaseFrameworkIosSimulatorArm64")
-
-    doLast {
-        val outputDir = file("${buildDir}/XCFrameworks/release")
-        outputDir.mkdirs()
-
-        val mainFramework = kotlin.targets.getByName<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>("iosArm64")
-            .binaries.getFramework("Release").outputDirectory.absolutePath
-
-        val submoduleFramework = kotlin.targets.getByName<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>("iosArm64")
-            .binaries.getFramework("Release").outputDirectory.absolutePath
-
-        exec {
-            commandLine(
-                "xcodebuild",
-                "-create-xcframework",
-                "-framework", mainFramework,
-                "-framework", submoduleFramework,
-                "-output", "${outputDir.absolutePath}/Library.xcframework"
-            )
-        }
     }
 }

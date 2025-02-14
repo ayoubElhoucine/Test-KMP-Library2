@@ -25,9 +25,9 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared"
+            baseName = "submodule"
             xcf.add(this)
-            isStatic = true
+            isStatic = false
         }
     }
 
@@ -50,30 +50,5 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
-
-tasks.register("assembleMainXCFramework") {
-    dependsOn("linkReleaseFrameworkIosArm64", "linkReleaseFrameworkIosX64", "linkReleaseFrameworkIosSimulatorArm64")
-
-    doLast {
-        val outputDir = file("${buildDir}/XCFrameworks/release")
-        outputDir.mkdirs()
-
-        val mainFramework = kotlin.targets.getByName<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>("iosArm64")
-            .binaries.getFramework("Release").outputDirectory.absolutePath
-
-        val submoduleFramework = kotlin.targets.getByName<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>("iosArm64")
-            .binaries.getFramework("Release").outputDirectory.absolutePath
-
-        exec {
-            commandLine(
-                "xcodebuild",
-                "-create-xcframework",
-                "-framework", mainFramework,
-                "-framework", submoduleFramework,
-                "-output", "${outputDir.absolutePath}/Submodule.xcframework"
-            )
-        }
     }
 }

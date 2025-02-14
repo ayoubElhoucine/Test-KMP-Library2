@@ -19,11 +19,11 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "shared",
-            path: "./Library.xcframework"
+            path: "./shared.xcframework"
         ),
         .binaryTarget(
             name: "submodule",
-            path: "./Submodule.xcframework"
+            path: "./submodule.xcframework"
         )
     ]
 )
