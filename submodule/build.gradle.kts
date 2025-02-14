@@ -17,7 +17,7 @@ kotlin {
             }
         }
     }
-    
+
     val xcf = XCFramework()
     listOf(
         iosX64(),
@@ -42,7 +42,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.ayoub.testkmplib2"
+    namespace = "com.ayoub.submodule"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
@@ -72,7 +72,7 @@ tasks.register("assembleMainXCFramework") {
                 "-create-xcframework",
                 "-framework", mainFramework,
                 "-framework", submoduleFramework,
-                "-output", "${outputDir.absolutePath}/Library.xcframework"
+                "-output", "${outputDir.absolutePath}/Submodule.xcframework"
             )
         }
     }

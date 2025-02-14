@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TestKmpLib2"
 include(":shared")
+include(":submodule")
